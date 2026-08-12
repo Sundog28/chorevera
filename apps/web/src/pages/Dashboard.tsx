@@ -1,6 +1,5 @@
-import {
+﻿import {
   type FormEvent,
-  useCallback,
   useEffect,
   useMemo,
   useRef,
@@ -799,7 +798,7 @@ export default function Dashboard() {
               "ChoreFlow Reminder",
               {
                 body:
-                  `It’s time to ` +
+                  `Itâ€™s time to ` +
                   `${chore.title.toLowerCase()}.`,
                 icon: "/vite.svg",
                 tag:
@@ -1409,7 +1408,7 @@ export default function Dashboard() {
         permission === "denied"
       ) {
         setNotificationMessage(
-          "Notifications were blocked. Enable them from your browser’s site settings.",
+          "Notifications were blocked. Enable them from your browserâ€™s site settings.",
         );
       } else {
         setNotificationMessage(
@@ -1790,7 +1789,7 @@ export default function Dashboard() {
         <section className="hero-card">
           <div>
             <span className="eyebrow">
-              Today’s progress
+              Todayâ€™s progress
             </span>
 
             <h2>
@@ -1839,7 +1838,7 @@ export default function Dashboard() {
 
             <div>
               <span>
-                Today’s chores
+                Todayâ€™s chores
               </span>
 
               <strong>
@@ -2263,7 +2262,7 @@ export default function Dashboard() {
                   </span>
 
                   <h3>
-                    Today’s chores
+                    Todayâ€™s chores
                   </h3>
                 </div>
 
@@ -2965,7 +2964,7 @@ export default function Dashboard() {
                   {isCheckoutLoading
                     ? "Opening Checkout..."
                     : (
-                        "Upgrade to Pro — " +
+                        "Upgrade to Pro â€” " +
                         "$4.99/month"
                       )}
                 </button>
@@ -3249,3 +3248,4 @@ export default function Dashboard() {
     </div>
   );
 }
+

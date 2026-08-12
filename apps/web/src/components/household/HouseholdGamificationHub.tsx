@@ -1,4 +1,4 @@
-import {
+﻿import {
   useEffect,
   useMemo,
   useState,
@@ -13,12 +13,10 @@ import {
   ChevronLeft,
   ChevronRight,
   Crown,
-  Flame,
   Lightbulb,
   Medal,
   PartyPopper,
   Sparkles,
-  Star,
   Target,
   Trophy,
   UserRound,
@@ -592,7 +590,7 @@ export default function HouseholdGamificationHub({
             const badges:
               BadgeDefinition[] = [
               {
-                icon: "🏆",
+                icon: "ðŸ†",
                 title:
                   "Chore Champion",
                 description:
@@ -602,7 +600,7 @@ export default function HouseholdGamificationHub({
                   10,
               },
               {
-                icon: "⭐",
+                icon: "â­",
                 title:
                   "Perfect Finish",
                 description:
@@ -612,7 +610,7 @@ export default function HouseholdGamificationHub({
                   item.percentage === 100,
               },
               {
-                icon: "⚡",
+                icon: "âš¡",
                 title:
                   "Fast Starter",
                 description:
@@ -622,7 +620,7 @@ export default function HouseholdGamificationHub({
                   3,
               },
               {
-                icon: "👑",
+                icon: "ðŸ‘‘",
                 title:
                   "Household Hero",
                 description:
@@ -1114,7 +1112,7 @@ export default function HouseholdGamificationHub({
 
             <p>
               {achievementUnlock.memberName}
-              {" — "}
+              {" â€” "}
               {achievementUnlock.description}
             </p>
 
@@ -1411,7 +1409,7 @@ export default function HouseholdGamificationHub({
             {champion &&
             champion.assignedCount > 0
               ? (
-                  `${champion.points} points · ` +
+                  `${champion.points} points Â· ` +
                   `${champion.completedCount} completed`
                 )
               : (
@@ -1576,11 +1574,11 @@ export default function HouseholdGamificationHub({
 
                 const rankLabel =
                   position === 1
-                    ? "🥇"
+                    ? "ðŸ¥‡"
                     : position === 2
-                      ? "🥈"
+                      ? "ðŸ¥ˆ"
                       : position === 3
-                        ? "🥉"
+                        ? "ðŸ¥‰"
                         : `#${position}`;
 
                 return (
@@ -1815,7 +1813,7 @@ export default function HouseholdGamificationHub({
                 <div className="weekly-chart-value">
                   {day.hasData
                     ? `${day.percentage}%`
-                    : "—"}
+                    : "â€”"}
                 </div>
 
                 <div className="weekly-chart-track">
@@ -2090,7 +2088,7 @@ export default function HouseholdGamificationHub({
             <CalendarDays size={19} />
 
             <strong>
-              Today’s household schedule
+              Todayâ€™s household schedule
             </strong>
           </div>
 
@@ -2186,3 +2184,4 @@ export default function HouseholdGamificationHub({
     </>
   );
 }
+
