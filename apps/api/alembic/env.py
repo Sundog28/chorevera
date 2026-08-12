@@ -15,11 +15,52 @@ from app import models  # noqa: F401
 
 config = context.config
 
+
+def normalize_database_url(
+    database_url: str,
+) -> str:
+    """
+    Use psycopg 3 explicitly for PostgreSQL.
+
+    Render provides PostgreSQL connection strings in
+    postgresql:// form. SQLAlchemy 2.0 interprets that
+    form with the psycopg2 driver by default, while
+    ChoreFlow installs psycopg 3.
+
+    SQLite URLs are returned unchanged.
+    """
+    if database_url.startswith(
+        "postgres://",
+    ):
+        return (
+            "postgresql+psycopg://"
+            + database_url[
+                len("postgres://"):
+            ]
+        )
+
+    if database_url.startswith(
+        "postgresql://",
+    ):
+        return (
+            "postgresql+psycopg://"
+            + database_url[
+                len("postgresql://"):
+            ]
+        )
+
+    return database_url
+
+
 database_url = (
     config.attributes.get(
         "database_url",
     )
     or settings.database_url
+)
+
+database_url = normalize_database_url(
+    database_url,
 )
 
 config.set_main_option(
