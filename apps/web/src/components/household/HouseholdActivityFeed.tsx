@@ -1,4 +1,4 @@
-import {
+﻿import {
   CheckCircle2,
   CirclePlus,
   DoorOpen,
@@ -38,7 +38,7 @@ interface HouseholdActivityFeedProps {
 interface ActivityAppearance {
   label: string;
   className: string;
-  icon: JSX.Element;
+  icon: import("react").ReactNode;
 }
 
 
