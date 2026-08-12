@@ -1,0 +1,118 @@
+services:
+  - type: web
+    name: choreflow-api
+    runtime: python
+    region: ohio
+    plan: starter
+    rootDir: apps/api
+    buildCommand: pip install -r requirements.txt
+    preDeployCommand: python -m alembic upgrade head
+    startCommand: python -m uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/v1/health
+    autoDeployTrigger: commit
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: choreflow-postgres
+          property: connectionString
+
+      - key: ENVIRONMENT
+        value: production
+
+      - key: JWT_SECRET_KEY
+        generateValue: true
+
+      - key: JWT_ISSUER
+        value: choreflow-api
+
+      - key: JWT_AUDIENCE
+        value: choreflow-web
+
+      # Set these two to the exact frontend URL after
+      # the frontend static site is created.
+      - key: FRONTEND_URL
+        value: https://frontend-not-configured.invalid
+
+      - key: CORS_ALLOWED_ORIGINS_CSV
+        value: https://frontend-not-configured.invalid
+
+      - key: TRUSTED_HOSTS_CSV
+        value: localhost,127.0.0.1,testserver
+
+      - key: TRUST_PROXY_HEADERS
+        value: "true"
+
+      - key: FORCE_HTTPS
+        value: "false"
+
+      - key: DOCS_ENABLED
+        value: "false"
+
+      - key: RATE_LIMIT_ENABLED
+        value: "true"
+
+      - key: DB_POOL_SIZE
+        value: "5"
+
+      - key: DB_MAX_OVERFLOW
+        value: "5"
+
+      - key: DB_POOL_TIMEOUT_SECONDS
+        value: "30"
+
+      - key: DB_POOL_RECYCLE_SECONDS
+        value: "300"
+
+      # Existing production credentials. Render will ask
+      # you for these during initial Blueprint creation.
+      - key: STRIPE_SECRET_KEY
+        sync: false
+
+      - key: STRIPE_WEBHOOK_SECRET
+        sync: false
+
+      - key: STRIPE_PRO_PRICE_ID
+        sync: false
+
+      - key: STRIPE_FAMILY_PRICE_ID
+        sync: false
+
+      - key: SMTP_HOST
+        sync: false
+
+      - key: SMTP_PORT
+        value: "587"
+
+      - key: SMTP_USERNAME
+        sync: false
+
+      - key: SMTP_PASSWORD
+        sync: false
+
+      - key: SMTP_FROM_EMAIL
+        sync: false
+
+      - key: SMTP_USE_TLS
+        value: "true"
+
+      - key: SMTP_USE_SSL
+        value: "false"
+
+      # Update after the frontend URL is known.
+      - key: STRIPE_CHECKOUT_SUCCESS_URL
+        value: https://frontend-not-configured.invalid/?checkout=success
+
+      - key: STRIPE_CHECKOUT_CANCEL_URL
+        value: https://frontend-not-configured.invalid/?checkout=cancelled
+
+      - key: STRIPE_PORTAL_RETURN_URL
+        value: https://frontend-not-configured.invalid/
+
+databases:
+  - name: choreflow-postgres
+    region: ohio
+    plan: basic-256mb
+    postgresMajorVersion: "18"
+    databaseName: choreflow
+    user: choreflow
+    connectionPool: none

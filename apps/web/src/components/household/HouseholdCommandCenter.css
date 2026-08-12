@@ -1,0 +1,266 @@
+/* Household Command Center — self-contained styles */
+
+.household-action-center {
+  margin-top: 18px;
+  padding: 19px;
+  border: 1px solid #ddd7fb;
+  border-radius: 17px;
+  background:
+    radial-gradient(
+      circle at top right,
+      rgba(112, 72, 232, 0.1),
+      transparent 37%
+    ),
+    #fcfbff;
+}
+
+.household-action-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.household-action-heading h4,
+.household-action-heading p {
+  margin: 0;
+}
+
+.household-action-heading h4 {
+  color: #30294b;
+  font-size: 1rem;
+}
+
+.household-action-heading p {
+  max-width: 620px;
+  margin-top: 5px;
+  color: #827a98;
+  font-size: 0.72rem;
+  line-height: 1.5;
+}
+
+.household-health-status {
+  flex: 0 0 auto;
+  min-width: 125px;
+  padding: 10px 12px;
+  text-align: right;
+  border-radius: 12px;
+}
+
+.household-health-status span,
+.household-health-status strong {
+  display: block;
+}
+
+.household-health-status span {
+  font-size: 0.59rem;
+  font-weight: 850;
+  text-transform: uppercase;
+}
+
+.household-health-status strong {
+  margin-top: 3px;
+  font-size: 0.76rem;
+}
+
+.household-health-status.healthy {
+  color: #087f5b;
+  background: #dff7ec;
+}
+
+.household-health-status.warning {
+  color: #8a5a00;
+  background: #fff3cd;
+}
+
+.household-health-status.critical {
+  color: #a03b3b;
+  background: #fff0f0;
+}
+
+.household-priority-grid {
+  display: grid;
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.household-priority-grid article {
+  min-width: 0;
+  padding: 13px;
+  display: grid;
+  grid-template-columns:
+    auto minmax(0, 1fr);
+  align-items: start;
+  gap: 10px;
+  border: 1px solid #e3e0ee;
+  border-radius: 13px;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+.priority-icon {
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 10px;
+}
+
+.priority-warning .priority-icon {
+  color: #9a6500;
+  background: #fff1c2;
+}
+
+.priority-success .priority-icon {
+  color: #087f5b;
+  background: #dff7ec;
+}
+
+.household-priority-grid span,
+.household-priority-grid strong,
+.household-priority-grid p {
+  display: block;
+  overflow-wrap: anywhere;
+}
+
+.household-priority-grid span {
+  color: #7c7590;
+  font-size: 0.61rem;
+  font-weight: 800;
+}
+
+.household-priority-grid strong {
+  margin-top: 3px;
+  color: #38314e;
+  font-size: 0.9rem;
+}
+
+.household-priority-grid p {
+  margin: 3px 0 0;
+  color: #91899f;
+  font-size: 0.61rem;
+  line-height: 1.4;
+}
+
+.household-recommendation {
+  margin-top: 12px;
+  padding: 12px 13px;
+  display: grid;
+  grid-template-columns:
+    auto minmax(0, 1fr);
+  gap: 10px;
+  border: 1px solid #ded6ff;
+  border-radius: 13px;
+  background: #f3f0ff;
+}
+
+.household-recommendation-icon {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border-radius: 11px;
+  color: #5f3dc4;
+  background: white;
+}
+
+.household-recommendation strong,
+.household-recommendation p {
+  display: block;
+  margin: 0;
+}
+
+.household-recommendation strong {
+  color: #463b71;
+  font-size: 0.72rem;
+}
+
+.household-recommendation p {
+  margin-top: 4px;
+  color: #746a96;
+  font-size: 0.67rem;
+  line-height: 1.5;
+}
+
+.household-action-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px;
+  margin-top: 13px;
+}
+
+.household-command-primary,
+.household-command-secondary {
+  min-height: 40px;
+  padding: 0 13px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border-radius: 11px;
+  font-size: 0.69rem;
+  font-weight: 850;
+}
+
+.household-command-primary {
+  border: 0;
+  color: white;
+  background:
+    linear-gradient(
+      135deg,
+      #4c6ef5,
+      #7048e8
+    );
+  box-shadow:
+    0 8px 18px
+    rgba(76, 110, 245, 0.18);
+}
+
+.household-command-secondary {
+  border: 1px solid #d7dcea;
+  color: #4f5c74;
+  background: white;
+}
+
+.household-command-secondary:hover {
+  border-color: #aeb9d1;
+  background: #f8faff;
+}
+
+.household-command-note {
+  margin: 10px 0 0;
+  color: #8c849c;
+  font-size: 0.64rem;
+  line-height: 1.45;
+}
+
+@media (max-width: 1000px) {
+  .household-priority-grid {
+    grid-template-columns:
+      repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 680px) {
+  .household-action-heading {
+    flex-direction: column;
+  }
+
+  .household-health-status {
+    width: 100%;
+    text-align: left;
+  }
+
+  .household-priority-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .household-action-buttons {
+    display: grid;
+  }
+
+  .household-action-buttons button {
+    width: 100%;
+  }
+}
