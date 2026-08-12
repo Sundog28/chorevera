@@ -1,7 +1,10 @@
-r"""
-Copy an existing ChoreFlow SQLite database into an EMPTY
-PostgreSQL database whose schema has already been created
-with Alembic.
+"""
+Safely copy an existing ChoreFlow SQLite database into an EMPTY
+PostgreSQL database whose schema has already been created by Alembic.
+
+This version also repairs legacy nullable foreign-key references that
+point to rows which no longer exist. Example: old household activity
+records that still reference a chore that was later deleted.
 
 Usage from apps/api:
 
@@ -13,17 +16,22 @@ Optional:
   $env:SOURCE_SQLITE_PATH=".\choreflow.db"
 
 Safety behavior:
-- refuses to run if the target contains application rows
+- refuses to run if target application tables already contain rows
 - skips alembic_version
 - preserves primary-key IDs
-- resets PostgreSQL sequences after inserts
-- prints per-table source/target counts
+- inserts tables in PostgreSQL dependency order
+- converts orphaned *nullable* foreign keys to NULL
+- refuses to silently repair orphaned non-nullable foreign keys
+- resets PostgreSQL sequences after explicit-ID inserts
+- verifies source/target row counts after the copy
 """
 
 from __future__ import annotations
 
 import os
+from collections import defaultdict
 from pathlib import Path
+from typing import Any
 
 from sqlalchemy import (
     MetaData,
@@ -32,6 +40,8 @@ from sqlalchemy import (
     select,
     text,
 )
+from sqlalchemy.engine import Connection
+from sqlalchemy.sql.schema import Table
 
 
 SKIP_TABLES = {
@@ -66,6 +76,215 @@ def normalize_postgres_url(
     return database_url
 
 
+def get_single_primary_key(
+    table: Table,
+):
+    primary_keys = list(
+        table.primary_key.columns,
+    )
+
+    if len(primary_keys) != 1:
+        return None
+
+    return primary_keys[0]
+
+
+def load_source_rows(
+    connection: Connection,
+    table: Table,
+) -> list[dict[str, Any]]:
+    return [
+        dict(row)
+        for row in connection.execute(
+            select(
+                table,
+            ),
+        ).mappings()
+    ]
+
+
+def build_source_key_sets(
+    source_connection: Connection,
+    source_meta: MetaData,
+) -> dict[
+    tuple[str, str],
+    set[Any],
+]:
+    key_sets: dict[
+        tuple[str, str],
+        set[Any],
+    ] = {}
+
+    for table in source_meta.tables.values():
+        if table.name in SKIP_TABLES:
+            continue
+
+        primary_key = get_single_primary_key(
+            table,
+        )
+
+        if primary_key is None:
+            continue
+
+        values = set(
+            source_connection.execute(
+                select(
+                    primary_key,
+                ),
+            ).scalars()
+        )
+
+        key_sets[
+            (
+                table.name,
+                primary_key.name,
+            )
+        ] = values
+
+    return key_sets
+
+
+def sanitize_nullable_foreign_keys(
+    *,
+    table: Table,
+    rows: list[dict[str, Any]],
+    source_key_sets: dict[
+        tuple[str, str],
+        set[Any],
+    ],
+    repaired_counts: dict[
+        str,
+        int,
+    ],
+) -> None:
+    """
+    PostgreSQL enforces foreign keys strictly.
+
+    Older SQLite data can contain historical rows whose optional
+    reference points at a record that was deleted later. If the
+    destination column is nullable, preserve the historical row and
+    clear only that stale reference.
+
+    Non-nullable orphaned references are treated as a hard migration
+    error because silently dropping them could corrupt core data.
+    """
+    for foreign_key in table.foreign_keys:
+        local_column = (
+            foreign_key.parent
+        )
+
+        remote_column = (
+            foreign_key.column
+        )
+
+        remote_table = (
+            remote_column.table
+        )
+
+        remote_values = (
+            source_key_sets.get(
+                (
+                    remote_table.name,
+                    remote_column.name,
+                ),
+            )
+        )
+
+        if remote_values is None:
+            continue
+
+        for row in rows:
+            value = row.get(
+                local_column.name,
+            )
+
+            if value is None:
+                continue
+
+            if value in remote_values:
+                continue
+
+            if not local_column.nullable:
+                raise SystemExit(
+                    (
+                        "Migration stopped: "
+                        f"{table.name}."
+                        f"{local_column.name}="
+                        f"{value!r} references missing "
+                        f"{remote_table.name}."
+                        f"{remote_column.name}, and "
+                        "the destination column is "
+                        "not nullable."
+                    ),
+                )
+
+            row[
+                local_column.name
+            ] = None
+
+            repair_key = (
+                f"{table.name}."
+                f"{local_column.name}"
+            )
+
+            repaired_counts[
+                repair_key
+            ] += 1
+
+
+def reset_postgres_sequence(
+    connection: Connection,
+    table: Table,
+) -> None:
+    primary_key = get_single_primary_key(
+        table,
+    )
+
+    if primary_key is None:
+        return
+
+    sequence_name = connection.execute(
+        text(
+            "SELECT pg_get_serial_sequence("
+            ":table_name, :column_name)"
+        ),
+        {
+            "table_name":
+                table.name,
+            "column_name":
+                primary_key.name,
+        },
+    ).scalar_one_or_none()
+
+    if not sequence_name:
+        return
+
+    max_value = connection.execute(
+        select(
+            func.max(
+                primary_key,
+            ),
+        ),
+    ).scalar_one_or_none()
+
+    if max_value is None:
+        return
+
+    connection.execute(
+        text(
+            "SELECT setval("
+            "CAST(:sequence_name AS regclass), "
+            ":max_value, true)"
+        ),
+        {
+            "sequence_name":
+                sequence_name,
+            "max_value":
+                int(max_value),
+        },
+    )
+
+
 def main() -> None:
     source_path = Path(
         os.getenv(
@@ -81,12 +300,18 @@ def main() -> None:
 
     if not source_path.exists():
         raise SystemExit(
-            f"SQLite source not found: {source_path}",
+            (
+                "SQLite source not found: "
+                f"{source_path}"
+            ),
         )
 
     if not target_url:
         raise SystemExit(
-            "TARGET_DATABASE_URL is required.",
+            (
+                "TARGET_DATABASE_URL "
+                "is required."
+            ),
         )
 
     target_url = normalize_postgres_url(
@@ -97,7 +322,10 @@ def main() -> None:
         "postgresql+psycopg://",
     ):
         raise SystemExit(
-            "TARGET_DATABASE_URL must be PostgreSQL.",
+            (
+                "TARGET_DATABASE_URL "
+                "must be PostgreSQL."
+            ),
         )
 
     source_engine = create_engine(
@@ -122,41 +350,56 @@ def main() -> None:
         bind=target_engine,
     )
 
-    source_tables = [
-        table
-        for table in source_meta.sorted_tables
-        if table.name not in SKIP_TABLES
-        and table.name in target_meta.tables
-    ]
+    matching_table_names = {
+        table_name
+        for table_name
+        in source_meta.tables
+        if (
+            table_name
+            not in SKIP_TABLES
+            and table_name
+            in target_meta.tables
+        )
+    }
 
-    if not source_tables:
+    if not matching_table_names:
         raise SystemExit(
-            "No matching application tables were found.",
+            (
+                "No matching application "
+                "tables were found."
+            ),
         )
 
-    # Refuse to merge into a database that already has rows.
+    # Insert using destination dependency order.
+    target_tables = [
+        table
+        for table
+        in target_meta.sorted_tables
+        if table.name
+        in matching_table_names
+    ]
+
+    # Refuse to merge into a database that already has app rows.
     with target_engine.connect() as target:
-        nonempty = []
+        nonempty: list[
+            tuple[str, int]
+        ] = []
 
-        for source_table in source_tables:
-            target_table = (
-                target_meta.tables[
-                    source_table.name
-                ]
+        for target_table in target_tables:
+            target_count = (
+                target.execute(
+                    select(
+                        func.count(),
+                    ).select_from(
+                        target_table,
+                    ),
+                ).scalar_one()
             )
-
-            target_count = target.execute(
-                select(
-                    func.count(),
-                ).select_from(
-                    target_table,
-                ),
-            ).scalar_one()
 
             if target_count > 0:
                 nonempty.append(
                     (
-                        source_table.name,
+                        target_table.name,
                         target_count,
                     ),
                 )
@@ -165,13 +408,17 @@ def main() -> None:
             details = ", ".join(
                 (
                     f"{name}={count}"
-                    for name, count in nonempty
+                    for name, count
+                    in nonempty
                 ),
             )
 
             raise SystemExit(
-                "Target database is not empty. "
-                f"Refusing to merge rows: {details}",
+                (
+                    "Target database is not empty. "
+                    "Refusing to merge rows: "
+                    f"{details}"
+                ),
             )
 
     copied_counts: dict[
@@ -179,128 +426,122 @@ def main() -> None:
         int,
     ] = {}
 
-    with (
-        source_engine.connect() as source,
-        target_engine.begin() as target,
-    ):
-        for source_table in source_tables:
-            target_table = (
-                target_meta.tables[
-                    source_table.name
-                ]
+    repaired_counts: dict[
+        str,
+        int,
+    ] = defaultdict(int)
+
+    with source_engine.connect() as source:
+        source_key_sets = (
+            build_source_key_sets(
+                source,
+                source_meta,
             )
+        )
 
-            rows = [
-                dict(row)
-                for row in source.execute(
-                    select(
-                        source_table,
-                    ),
-                ).mappings()
-            ]
-
-            if rows:
-                target.execute(
-                    target_table.insert(),
-                    rows,
+        # One PostgreSQL transaction. Any failure rolls
+        # back all inserted application rows.
+        with target_engine.begin() as target:
+            for target_table in target_tables:
+                source_table = (
+                    source_meta.tables[
+                        target_table.name
+                    ]
                 )
 
-            copied_counts[
-                source_table.name
-            ] = len(rows)
+                rows = load_source_rows(
+                    source,
+                    source_table,
+                )
 
-        # Explicit primary-key inserts do not always advance
-        # PostgreSQL sequences. Reset serial/identity sequences.
-        for table_name in copied_counts:
-            target_table = (
-                target_meta.tables[
-                    table_name
-                ]
-            )
-
-            primary_keys = list(
-                target_table.primary_key.columns,
-            )
-
-            if len(primary_keys) != 1:
-                continue
-
-            primary_key = primary_keys[0]
-
-            sequence_name = target.execute(
-                text(
-                    "SELECT pg_get_serial_sequence("
-                    ":table_name, :column_name)"
-                ),
-                {
-                    "table_name": table_name,
-                    "column_name":
-                        primary_key.name,
-                },
-            ).scalar_one_or_none()
-
-            if not sequence_name:
-                continue
-
-            max_value = target.execute(
-                select(
-                    func.max(
-                        primary_key,
+                sanitize_nullable_foreign_keys(
+                    table=target_table,
+                    rows=rows,
+                    source_key_sets=(
+                        source_key_sets
                     ),
-                ),
-            ).scalar_one_or_none()
+                    repaired_counts=(
+                        repaired_counts
+                    ),
+                )
 
-            if max_value is None:
-                continue
+                if rows:
+                    target.execute(
+                        target_table.insert(),
+                        rows,
+                    )
 
-            target.execute(
-                text(
-                    "SELECT setval("
-                    "CAST(:sequence_name AS regclass), "
-                    ":max_value, true)"
-                ),
-                {
-                    "sequence_name":
-                        sequence_name,
-                    "max_value":
-                        int(max_value),
-                },
-            )
+                copied_counts[
+                    target_table.name
+                ] = len(rows)
+
+            # Explicit primary-key inserts do not always
+            # advance PostgreSQL sequences.
+            for target_table in target_tables:
+                reset_postgres_sequence(
+                    target,
+                    target_table,
+                )
 
     print(
-        "SQLite -> PostgreSQL copy complete.",
+        (
+            "SQLite -> PostgreSQL "
+            "copy complete."
+        ),
     )
+
+    if repaired_counts:
+        print(
+            "\nLegacy nullable references repaired:",
+        )
+
+        for key, count in sorted(
+            repaired_counts.items(),
+        ):
+            print(
+                (
+                    f"REPAIRED {key}: "
+                    f"{count} stale reference(s) "
+                    "set to NULL"
+                ),
+            )
 
     print(
         "\nTable counts:",
     )
 
     with (
-        source_engine.connect() as source,
-        target_engine.connect() as target,
+        source_engine.connect()
+        as source,
+        target_engine.connect()
+        as target,
     ):
-        for source_table in source_tables:
-            target_table = (
-                target_meta.tables[
-                    source_table.name
+        for target_table in target_tables:
+            source_table = (
+                source_meta.tables[
+                    target_table.name
                 ]
             )
 
-            source_count = source.execute(
-                select(
-                    func.count(),
-                ).select_from(
-                    source_table,
-                ),
-            ).scalar_one()
+            source_count = (
+                source.execute(
+                    select(
+                        func.count(),
+                    ).select_from(
+                        source_table,
+                    ),
+                ).scalar_one()
+            )
 
-            target_count = target.execute(
-                select(
-                    func.count(),
-                ).select_from(
-                    target_table,
-                ),
-            ).scalar_one()
+            target_count = (
+                target.execute(
+                    select(
+                        func.count(),
+                    ).select_from(
+                        target_table,
+                    ),
+                ).scalar_one()
+            )
 
             marker = (
                 "OK"
@@ -310,19 +551,27 @@ def main() -> None:
             )
 
             print(
-                f"{marker:8} "
-                f"{source_table.name:30} "
-                f"SQLite={source_count:<6} "
-                f"Postgres={target_count:<6}",
+                (
+                    f"{marker:8} "
+                    f"{target_table.name:30} "
+                    f"SQLite={source_count:<6} "
+                    f"Postgres={target_count:<6}"
+                ),
             )
 
             if source_count != target_count:
                 raise SystemExit(
-                    "Migration count verification failed.",
+                    (
+                        "Migration count "
+                        "verification failed."
+                    ),
                 )
 
     print(
-        "\nAll migrated table counts match.",
+        (
+            "\nAll migrated table "
+            "counts match."
+        ),
     )
 
 
