@@ -21,9 +21,11 @@ import {
   FeatureProvider,
 } from "./context/FeatureContext";
 
+import PublicFooter from "./components/PublicFooter";
 import Dashboard from "./pages/Dashboard";
 import ForgotPassword from "./pages/ForgotPassword";
 import Household from "./pages/Household";
+import LegalPage from "./pages/LegalPage";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import ResetPassword from "./pages/ResetPassword";
@@ -41,6 +43,12 @@ type AppPage =
   | "dashboard"
   | "household";
 
+type PublicPage =
+  | "privacy"
+  | "terms"
+  | "support"
+  | null;
+
 
 const ACTIVE_PAGE_STORAGE_KEY =
   "choreflow-active-page";
@@ -55,6 +63,28 @@ function getInitialPage(): AppPage {
   return savedPage === "household"
     ? "household"
     : "dashboard";
+}
+
+
+function getPublicPage(): PublicPage {
+  const path =
+    window.location.pathname
+      .replace(/\/+$/, "")
+      .toLowerCase();
+
+  if (path === "/privacy") {
+    return "privacy";
+  }
+
+  if (path === "/terms") {
+    return "terms";
+  }
+
+  if (path === "/support") {
+    return "support";
+  }
+
+  return null;
 }
 
 
@@ -88,6 +118,12 @@ function clearAuthLink(): void {
 
 
 function App() {
+  const publicPage =
+    useMemo(
+      getPublicPage,
+      [],
+    );
+
   const {
     user,
     isAuthenticated,
@@ -142,6 +178,15 @@ function App() {
 
     setAuthScreen(
       "login",
+    );
+  }
+
+
+  if (publicPage) {
+    return (
+      <LegalPage
+        page={publicPage}
+      />
     );
   }
 
@@ -213,103 +258,107 @@ function App() {
 
   if (!isAuthenticated) {
     return (
-      <div className="auth-screen-shell">
-        {sessionMessage && (
-          <div
-            className="auth-session-banner"
-            role="status"
-          >
-            <div>
-              <strong>
-                Session ended
-              </strong>
-
-              <span>
-                {sessionMessage}
-              </span>
-            </div>
-
-            <button
-              aria-label="Dismiss session message"
-              onClick={
-                clearSessionMessage
-              }
-              type="button"
+      <>
+        <div className="auth-screen-shell">
+          {sessionMessage && (
+            <div
+              className="auth-session-banner"
+              role="status"
             >
-              ×
-            </button>
-          </div>
-        )}
+              <div>
+                <strong>
+                  Session ended
+                </strong>
 
-        {authScreen === "register" && (
-          <Register
-            onRegistered={(
-              email,
-            ) => {
-              setVerificationEmail(
+                <span>
+                  {sessionMessage}
+                </span>
+              </div>
+
+              <button
+                aria-label="Dismiss session message"
+                onClick={
+                  clearSessionMessage
+                }
+                type="button"
+              >
+                ×
+              </button>
+            </div>
+          )}
+
+          {authScreen === "register" && (
+            <Register
+              onRegistered={(
                 email,
-              );
+              ) => {
+                setVerificationEmail(
+                  email,
+                );
 
-              setAuthScreen(
-                "verify-email",
-              );
-            }}
-            onShowLogin={
-              showLogin
-            }
-          />
-        )}
+                setAuthScreen(
+                  "verify-email",
+                );
+              }}
+              onShowLogin={
+                showLogin
+              }
+            />
+          )}
 
-        {authScreen === "forgot-password" && (
-          <ForgotPassword
-            onShowLogin={
-              showLogin
-            }
-          />
-        )}
+          {authScreen === "forgot-password" && (
+            <ForgotPassword
+              onShowLogin={
+                showLogin
+              }
+            />
+          )}
 
-        {authScreen === "reset-password" && (
-          <ResetPassword
-            onComplete={
-              showLogin
-            }
-            token={
-              authLink.resetToken
-            }
-          />
-        )}
+          {authScreen === "reset-password" && (
+            <ResetPassword
+              onComplete={
+                showLogin
+              }
+              token={
+                authLink.resetToken
+              }
+            />
+          )}
 
-        {authScreen === "verify-email" && (
-          <VerifyEmail
-            email={
-              verificationEmail
-            }
-            onComplete={
-              showLogin
-            }
-            token={
-              authLink.verifyToken
-            }
-          />
-        )}
+          {authScreen === "verify-email" && (
+            <VerifyEmail
+              email={
+                verificationEmail
+              }
+              onComplete={
+                showLogin
+              }
+              token={
+                authLink.verifyToken
+              }
+            />
+          )}
 
-        {authScreen === "login" && (
-          <Login
-            onForgotPassword={() =>
-              setAuthScreen(
-                "forgot-password",
-              )
-            }
-            onShowRegister={() => {
-              clearSessionMessage();
+          {authScreen === "login" && (
+            <Login
+              onForgotPassword={() =>
+                setAuthScreen(
+                  "forgot-password",
+                )
+              }
+              onShowRegister={() => {
+                clearSessionMessage();
 
-              setAuthScreen(
-                "register",
-              );
-            }}
-          />
-        )}
-      </div>
+                setAuthScreen(
+                  "register",
+                );
+              }}
+            />
+          )}
+        </div>
+
+        <PublicFooter />
+      </>
     );
   }
 
@@ -404,6 +453,8 @@ function App() {
           ) : (
             <Household />
           )}
+
+          <PublicFooter />
         </div>
       </FeatureProvider>
     </BillingProvider>
