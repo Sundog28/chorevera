@@ -1,4 +1,4 @@
-﻿import {
+import {
   ArrowLeft,
   CheckCircle2,
   LifeBuoy,

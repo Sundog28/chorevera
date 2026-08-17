@@ -1,4 +1,4 @@
-﻿import "../pages/LegalPage.css";
+import "../pages/LegalPage.css";
 
 export default function PublicFooter() {
   return (

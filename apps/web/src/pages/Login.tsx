@@ -1,4 +1,4 @@
-﻿import {
+import {
   type FormEvent,
   useState,
 } from "react";
@@ -346,7 +346,7 @@ export default function Login({
           </button>
 
           <p className="auth-switch-text">
-            Donâ€™t have an account?
+            Don't have an account?
 
             <button
               onClick={

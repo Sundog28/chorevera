@@ -1,4 +1,4 @@
-﻿import {
+import {
   useEffect,
   useMemo,
   useState,
@@ -1112,7 +1112,7 @@ export default function HouseholdGamificationHub({
 
             <p>
               {achievementUnlock.memberName}
-              {" â€” "}
+              {" — "}
               {achievementUnlock.description}
             </p>
 
@@ -1813,7 +1813,7 @@ export default function HouseholdGamificationHub({
                 <div className="weekly-chart-value">
                   {day.hasData
                     ? `${day.percentage}%`
-                    : "â€”"}
+                    : "—"}
                 </div>
 
                 <div className="weekly-chart-track">
@@ -2088,7 +2088,7 @@ export default function HouseholdGamificationHub({
             <CalendarDays size={19} />
 
             <strong>
-              Todayâ€™s household schedule
+              Today's household schedule
             </strong>
           </div>
 

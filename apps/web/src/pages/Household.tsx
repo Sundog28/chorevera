@@ -1,4 +1,4 @@
-﻿import {
+import {
   type FormEvent,
   useCallback,
   useEffect,
@@ -796,7 +796,7 @@ export default function Household() {
               </span>
 
               <h2>
-                Youâ€™ve been invited
+                You've been invited
               </h2>
             </div>
 
@@ -919,7 +919,7 @@ export default function Household() {
               <Crown size={18} />
             )}
 
-            Upgrade to Family â€”
+            Upgrade to Family —
             $9.99/month
           </button>
 
@@ -1238,13 +1238,13 @@ export default function Household() {
                       <strong>
                         {ownerAllowed
                           ? "Allowed"
-                          : "â€”"}
+                          : "—"}
                       </strong>
 
                       <strong>
                         {memberAllowed
                           ? "Allowed"
-                          : "â€”"}
+                          : "—"}
                       </strong>
                     </div>
                   ),
