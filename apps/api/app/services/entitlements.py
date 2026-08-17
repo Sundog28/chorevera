@@ -49,7 +49,7 @@ PLAN_ENTITLEMENTS: dict[
         advanced_reminders=True,
         analytics=True,
         household_sharing=True,
-        ai_planning=False,
+        ai_planning=True,
     ),
 }
 

@@ -94,6 +94,31 @@ class Settings(BaseSettings):
         "http://localhost:5173/"
     )
 
+    # OpenAI-backed household planning. Keep the API key
+    # server-side only (for example, in Render Environment).
+    openai_api_key: str = ""
+    openai_model: str = "gpt-5.6-luna"
+    openai_timeout_seconds: float = Field(
+        default=20.0,
+        ge=5.0,
+        le=120.0,
+    )
+    ai_planner_history_days: int = Field(
+        default=30,
+        ge=1,
+        le=365,
+    )
+    ai_planner_rate_limit: int = Field(
+        default=10,
+        ge=1,
+        le=1_000,
+    )
+    ai_planner_rate_window_seconds: int = Field(
+        default=3_600,
+        ge=60,
+        le=86_400,
+    )
+
     trusted_hosts_csv: str = (
         "localhost,127.0.0.1,testserver"
     )

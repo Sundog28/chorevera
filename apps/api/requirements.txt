@@ -37,3 +37,4 @@ watchfiles==1.2.0
 websockets==16.1.1
 alembic>=1.13,<2
 psycopg[binary]>=3.2,<4
+openai>=2.31,<3

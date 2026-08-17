@@ -9,6 +9,7 @@ import {
   LayoutDashboard,
   LogOut,
   UserRound,
+  WandSparkles,
 } from "lucide-react";
 
 import { useAuth } from "./context/AuthContext";
@@ -22,6 +23,7 @@ import {
 } from "./context/FeatureContext";
 
 import PublicFooter from "./components/PublicFooter";
+import AIPlanner from "./pages/AIPlanner";
 import Dashboard from "./pages/Dashboard";
 import ForgotPassword from "./pages/ForgotPassword";
 import Household from "./pages/Household";
@@ -41,7 +43,8 @@ type AuthScreen =
 
 type AppPage =
   | "dashboard"
-  | "household";
+  | "household"
+  | "ai-planner";
 
 type PublicPage =
   | "privacy"
@@ -60,9 +63,15 @@ function getInitialPage(): AppPage {
       ACTIVE_PAGE_STORAGE_KEY,
     );
 
-  return savedPage === "household"
-    ? "household"
-    : "dashboard";
+  if (savedPage === "household") {
+    return "household";
+  }
+
+  if (savedPage === "ai-planner") {
+    return "ai-planner";
+  }
+
+  return "dashboard";
 }
 
 
@@ -445,13 +454,37 @@ function App() {
               <Home size={18} />
               Household
             </button>
+
+            <button
+              aria-current={
+                activePage === "ai-planner"
+                  ? "page"
+                  : undefined
+              }
+              className={
+                activePage ===
+                "ai-planner"
+                  ? "active"
+                  : ""
+              }
+              onClick={() =>
+                setActivePage(
+                  "ai-planner",
+                )
+              }
+              type="button"
+            >
+              <WandSparkles size={18} />
+              AI Planner
+            </button>
           </nav>
 
-          {activePage ===
-          "dashboard" ? (
+          {activePage === "dashboard" ? (
             <Dashboard />
-          ) : (
+          ) : activePage === "household" ? (
             <Household />
+          ) : (
+            <AIPlanner />
           )}
 
           <PublicFooter />

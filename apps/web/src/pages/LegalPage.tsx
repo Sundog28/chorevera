@@ -35,6 +35,7 @@ function PrivacyPolicy() {
         <p>We collect information you provide when you create and use an account, including your name, email address, account credentials in protected form, chores, reminder settings, household memberships, invitations, completion history, and other household-management information.</p>
         <p>We also maintain subscription and billing metadata needed to provide paid features, such as your plan, subscription status, Stripe customer identifier, and Stripe subscription identifier.</p>
         <p>ChoreFlow and its hosting providers may process technical and security information such as IP address, browser or device information, request information, timestamps, and security events to operate and protect the service.</p>
+        <p>When you use AI-assisted household planning, ChoreFlow may send the planning request together with limited household context needed to generate the plan, such as household member display names, current chore titles and assignments, workload counts, reminder times, and recent completion statistics. ChoreFlow does not intentionally send household member email addresses, account passwords, payment-card data, or API credentials to the AI provider.</p>
       </section>
 
       <section>
@@ -62,7 +63,7 @@ function PrivacyPolicy() {
 
       <section>
         <h2>6. Service providers</h2>
-        <p>ChoreFlow relies on service providers to run the service, including Render for application and database hosting, Stripe for billing and payments, and Resend for transactional email. These providers process information as needed to provide their services.</p>
+        <p>ChoreFlow relies on service providers to run the service, including Render for application and database hosting, Stripe for billing and payments, Resend for transactional email, and OpenAI for optional AI-assisted household planning. These providers process information as needed to provide their services.</p>
         <p>ChoreFlow does not sell your personal information.</p>
       </section>
 
@@ -120,14 +121,15 @@ function TermsOfService() {
       <section><h2>4. Households and invitations</h2><p>ChoreFlow lets users create households, invite members, assign chores, and share household activity. Only invite people you are authorized to include. Household owners may have additional management permissions.</p></section>
       <section><h2>5. Subscriptions and billing</h2><p>Some ChoreFlow features require a paid subscription. Current pricing and plan features are shown before checkout. Paid subscriptions are processed by Stripe and may renew automatically until canceled.</p><p>You can manage or cancel an active subscription through ChoreFlow's billing tools. Unless applicable law requires otherwise, charges already incurred are not automatically refundable. ChoreFlow may choose to issue refunds in appropriate cases.</p></section>
       <section><h2>6. Acceptable use</h2><p>You may not use ChoreFlow to violate law, interfere with the service, gain unauthorized access to systems or accounts, distribute malicious code, abuse other users, or misuse ChoreFlow in a way that could harm the service or others.</p></section>
-      <section><h2>7. Your content</h2><p>You retain ownership of information you enter into ChoreFlow. You grant ChoreFlow the limited rights needed to host, process, transmit, back up, and display that information solely to operate and improve the service.</p></section>
-      <section><h2>8. Service availability</h2><p>ChoreFlow may change, suspend, or discontinue features and may perform maintenance. We work to keep the service reliable but do not promise uninterrupted or error-free availability.</p></section>
-      <section><h2>9. Disclaimer</h2><p>To the fullest extent permitted by applicable law, ChoreFlow is provided on an "as is" and "as available" basis without warranties that are not expressly stated in these Terms.</p></section>
-      <section><h2>10. Limitation of liability</h2><p>To the fullest extent permitted by applicable law, ChoreFlow and its operator will not be liable for indirect, incidental, special, consequential, or punitive damages, or for loss of data, profits, or business opportunities resulting from use of the service.</p><p>Nothing in these Terms excludes liability that cannot legally be excluded or limited.</p></section>
-      <section><h2>11. Suspension and termination</h2><p>ChoreFlow may suspend or terminate access when reasonably necessary to protect the service, other users, comply with law, address nonpayment, or respond to material violations of these Terms.</p></section>
-      <section><h2>12. Changes</h2><p>These Terms may be updated as the service changes. Material changes may be communicated through the service or other reasonable means. Continued use after updated Terms become effective constitutes acceptance where permitted by law.</p></section>
-      <section><h2>13. Governing law</h2><p>These Terms are governed by the laws of the State of Texas and applicable United States federal law, without regard to conflict-of-law principles, except where mandatory consumer law provides otherwise.</p></section>
-      <section><h2>14. Contact</h2><p>Questions about these Terms can be sent to <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a>.</p></section>
+      <section><h2>7. AI-assisted planning</h2><p>ChoreFlow may provide AI-generated household planning suggestions. AI output can be incomplete or inaccurate and is provided as a proposed plan for review, not as a guarantee of the best assignment or schedule. Review proposed actions before applying them. Household owners remain responsible for approving changes and deciding whether an AI-generated recommendation is appropriate for their household.</p></section>
+      <section><h2>8. Your content</h2><p>You retain ownership of information you enter into ChoreFlow. You grant ChoreFlow the limited rights needed to host, process, transmit, back up, and display that information solely to operate and improve the service, including processing limited household context through service providers when you request an AI-assisted plan.</p></section>
+      <section><h2>9. Service availability</h2><p>ChoreFlow may change, suspend, or discontinue features and may perform maintenance. We work to keep the service reliable but do not promise uninterrupted or error-free availability.</p></section>
+      <section><h2>10. Disclaimer</h2><p>To the fullest extent permitted by applicable law, ChoreFlow is provided on an "as is" and "as available" basis without warranties that are not expressly stated in these Terms.</p></section>
+      <section><h2>11. Limitation of liability</h2><p>To the fullest extent permitted by applicable law, ChoreFlow and its operator will not be liable for indirect, incidental, special, consequential, or punitive damages, or for loss of data, profits, or business opportunities resulting from use of the service.</p><p>Nothing in these Terms excludes liability that cannot legally be excluded or limited.</p></section>
+      <section><h2>12. Suspension and termination</h2><p>ChoreFlow may suspend or terminate access when reasonably necessary to protect the service, other users, comply with law, address nonpayment, or respond to material violations of these Terms.</p></section>
+      <section><h2>13. Changes</h2><p>These Terms may be updated as the service changes. Material changes may be communicated through the service or other reasonable means. Continued use after updated Terms become effective constitutes acceptance where permitted by law.</p></section>
+      <section><h2>14. Governing law</h2><p>These Terms are governed by the laws of the State of Texas and applicable United States federal law, without regard to conflict-of-law principles, except where mandatory consumer law provides otherwise.</p></section>
+      <section><h2>15. Contact</h2><p>Questions about these Terms can be sent to <a href={`mailto:${SUPPORT_EMAIL}`}>{SUPPORT_EMAIL}</a>.</p></section>
     </>
   );
 }

@@ -10,6 +10,7 @@ from app.middleware.security import (
     SecurityHeadersMiddleware,
 )
 from app.routes import (
+    ai_planner_router,
     auth_router,
     billing_router,
     chores_router,
@@ -28,7 +29,7 @@ app = FastAPI(
         "Backend API for the "
         "ChoreFlow SaaS platform."
     ),
-    version="0.12.0",
+    version="0.13.0",
     docs_url=(
         "/docs"
         if settings.docs_enabled
@@ -103,6 +104,20 @@ app.add_middleware(
                 settings.auth_sensitive_rate_window_seconds
             ),
         ),
+        "/api/v1/ai/household-plan": RateLimitRule(
+            limit=settings.ai_planner_rate_limit,
+            window_seconds=(
+                settings.ai_planner_rate_window_seconds
+            ),
+        ),
+        "/api/v1/ai/household-plan/apply": RateLimitRule(
+            limit=(
+                settings.ai_planner_rate_limit * 2
+            ),
+            window_seconds=(
+                settings.ai_planner_rate_window_seconds
+            ),
+        ),
     },
     enabled=settings.rate_limit_enabled,
     trust_proxy_headers=settings.trust_proxy_headers,
@@ -143,6 +158,7 @@ app.add_middleware(
 )
 
 app.include_router(auth_router)
+app.include_router(ai_planner_router)
 app.include_router(chores_router)
 app.include_router(billing_router)
 app.include_router(features_router)
