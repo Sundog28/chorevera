@@ -1,4 +1,4 @@
-from collections.abc import Generator
+﻿from collections.abc import Generator
 
 from sqlmodel import (
     Session,
@@ -13,7 +13,7 @@ def normalize_database_url(
 ) -> str:
     """
     Render supplies PostgreSQL URLs in the standard
-    postgresql:// form. ChoreFlow uses psycopg 3, so
+    postgresql:// form. Chorevera uses psycopg 3, so
     normalize PostgreSQL URLs to SQLAlchemy's explicit
     psycopg dialect.
     """
@@ -95,3 +95,4 @@ def get_session() -> Generator[
         engine,
     ) as session:
         yield session
+

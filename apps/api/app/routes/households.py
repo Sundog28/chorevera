@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+﻿from datetime import datetime, timezone
 
 from fastapi import (
     APIRouter,
@@ -91,7 +91,7 @@ def require_family_plan(
             status_code=status.HTTP_403_FORBIDDEN,
             detail=(
                 "Household sharing requires "
-                "the ChoreFlow Family plan."
+                "the Chorevera Family plan."
             ),
         )
 

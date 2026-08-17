@@ -1,10 +1,10 @@
-import "../pages/LegalPage.css";
+﻿import "../pages/LegalPage.css";
 
 export default function PublicFooter() {
   return (
     <footer className="public-footer">
       <div>
-        <strong>ChoreFlow</strong>
+        <strong>Chorevera</strong>
         <span>Shared household routines, made easier.</span>
       </div>
 
@@ -16,3 +16,4 @@ export default function PublicFooter() {
     </footer>
   );
 }
+

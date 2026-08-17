@@ -1,4 +1,4 @@
-import {
+﻿import {
   type FormEvent,
   useCallback,
   useEffect,
@@ -719,7 +719,7 @@ export default function Household() {
           </h2>
 
           <p>
-            ChoreFlow is synchronizing
+            Chorevera is synchronizing
             members and invitations.
           </p>
         </section>
@@ -796,7 +796,7 @@ export default function Household() {
               </span>
 
               <h2>
-                You’ve been invited
+                Youâ€™ve been invited
               </h2>
             </div>
 
@@ -919,7 +919,7 @@ export default function Household() {
               <Crown size={18} />
             )}
 
-            Upgrade to Family —
+            Upgrade to Family â€”
             $9.99/month
           </button>
 
@@ -947,8 +947,8 @@ export default function Household() {
 
           <p>
             Choose a name such as
-            “Treen Household” or
-            “The Smith Family.”
+            â€œTreen Householdâ€ or
+            â€œThe Smith Family.â€
           </p>
 
           <form
@@ -1238,13 +1238,13 @@ export default function Household() {
                       <strong>
                         {ownerAllowed
                           ? "Allowed"
-                          : "—"}
+                          : "â€”"}
                       </strong>
 
                       <strong>
                         {memberAllowed
                           ? "Allowed"
-                          : "—"}
+                          : "â€”"}
                       </strong>
                     </div>
                   ),
@@ -1252,7 +1252,7 @@ export default function Household() {
               </div>
 
               <p className="household-management-note">
-                ChoreFlow currently supports
+                Chorevera currently supports
                 Owner and Member roles. Additional
                 role editing requires a matching
                 backend permission endpoint.
@@ -1483,7 +1483,7 @@ export default function Household() {
 
                 <p>
                   The invited person must
-                  already have a ChoreFlow
+                  already have a Chorevera
                   account.
                 </p>
 
@@ -1743,3 +1743,4 @@ export default function Household() {
     </main>
   );
 }
+

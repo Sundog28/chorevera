@@ -1,4 +1,4 @@
-import {
+﻿import {
   type FormEvent,
   useState,
 } from "react";
@@ -181,7 +181,7 @@ export default function Login({
           </div>
 
           <div>
-            <h1>ChoreFlow</h1>
+            <h1>Chorevera</h1>
             <p>
               Build better daily routines.
             </p>
@@ -223,7 +223,7 @@ export default function Login({
             </span>
 
             <h2>
-              Sign in to ChoreFlow
+              Sign in to Chorevera
             </h2>
 
             <p>
@@ -346,7 +346,7 @@ export default function Login({
           </button>
 
           <p className="auth-switch-text">
-            Don’t have an account?
+            Donâ€™t have an account?
 
             <button
               onClick={
@@ -362,3 +362,4 @@ export default function Login({
     </main>
   );
 }
+

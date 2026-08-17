@@ -1,4 +1,4 @@
-import {
+﻿import {
   useEffect,
   useMemo,
   useState,
@@ -209,7 +209,7 @@ function App() {
           role="status"
         />
 
-        <h1>ChoreFlow</h1>
+        <h1>Chorevera</h1>
 
         <p>
           Restoring your secure session...
@@ -232,7 +232,7 @@ function App() {
           </span>
 
           <h1>
-            ChoreFlow could not restore
+            Chorevera could not restore
             your session
           </h1>
 
@@ -291,7 +291,7 @@ function App() {
                 }
                 type="button"
               >
-                ×
+                Ã—
               </button>
             </div>
           )}
@@ -496,3 +496,4 @@ function App() {
 
 
 export default App;
+

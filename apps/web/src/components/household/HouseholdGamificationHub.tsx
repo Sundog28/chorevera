@@ -1205,7 +1205,7 @@ export default function HouseholdGamificationHub({
         ) : (
           <>
             <p className="automation-description">
-              ChoreFlow distributes incomplete
+              Chorevera distributes incomplete
               household chores to the members
               with the lightest current workload.
               Review the plan before applying it.
@@ -1870,7 +1870,7 @@ export default function HouseholdGamificationHub({
 
         <p className="gamification-data-note">
           This chart uses the daily completion
-          history already stored by ChoreFlow
+          history already stored by Chorevera
           in this browser.
         </p>
       </section>
@@ -2184,4 +2184,5 @@ export default function HouseholdGamificationHub({
     </>
   );
 }
+
 

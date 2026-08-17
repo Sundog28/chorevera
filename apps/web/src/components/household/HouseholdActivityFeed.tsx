@@ -425,7 +425,7 @@ export default function HouseholdActivityFeed({
           </strong>
 
           <span>
-            ChoreFlow is retrieving the
+            Chorevera is retrieving the
             latest family updates.
           </span>
         </div>
@@ -524,3 +524,4 @@ export default function HouseholdActivityFeed({
     </section>
   );
 }
+

@@ -1,4 +1,4 @@
-import {
+﻿import {
   Component,
   type ErrorInfo,
   type ReactNode,
@@ -45,7 +45,7 @@ export default class ErrorBoundary
     errorInfo: ErrorInfo,
   ): void {
     console.error(
-      "ChoreFlow render failure:",
+      "Chorevera render failure:",
       error,
       errorInfo,
     );
@@ -81,7 +81,7 @@ export default class ErrorBoundary
           </div>
 
           <span className="eyebrow">
-            ChoreFlow recovered safely
+            Chorevera recovered safely
           </span>
 
           <h1>
@@ -114,7 +114,7 @@ export default class ErrorBoundary
               type="button"
             >
               <RefreshCw size={18} />
-              Reload ChoreFlow
+              Reload Chorevera
             </button>
           </div>
 

@@ -1,4 +1,4 @@
-import {
+﻿import {
   createContext,
   type ReactNode,
   useCallback,
@@ -191,7 +191,7 @@ export function AuthProvider({
             setSessionRestoreError(
               error instanceof Error
                 ? error.message
-                : "ChoreFlow could not restore your session.",
+                : "Chorevera could not restore your session.",
             );
           }
         } finally {
@@ -431,3 +431,4 @@ AuthContextValue {
 
   return context;
 }
+

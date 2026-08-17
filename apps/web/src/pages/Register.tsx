@@ -1,4 +1,4 @@
-import {
+﻿import {
   type FormEvent,
   useState,
 } from "react";
@@ -122,7 +122,7 @@ export default function Register({
           </div>
 
           <div>
-            <h1>ChoreFlow</h1>
+            <h1>Chorevera</h1>
 
             <p>
               Build better daily routines.
@@ -165,11 +165,11 @@ export default function Register({
             </span>
 
             <h2>
-              Create your ChoreFlow account
+              Create your Chorevera account
             </h2>
 
             <p>
-              ChoreFlow will send a verification
+              Chorevera will send a verification
               link before you can sign in.
             </p>
           </div>
@@ -302,3 +302,4 @@ export default function Register({
     </main>
   );
 }
+

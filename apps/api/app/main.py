@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+﻿from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.httpsredirect import HTTPSRedirectMiddleware
 from starlette.middleware.trustedhost import TrustedHostMiddleware
@@ -27,7 +27,7 @@ app = FastAPI(
     title=settings.app_name,
     description=(
         "Backend API for the "
-        "ChoreFlow SaaS platform."
+        "Chorevera SaaS platform."
     ),
     version="0.13.0",
     docs_url=(
@@ -123,7 +123,7 @@ app.add_middleware(
     trust_proxy_headers=settings.trust_proxy_headers,
 )
 
-# ChoreFlow authenticates browser API requests with an explicit Bearer
+# Chorevera authenticates browser API requests with an explicit Bearer
 # Authorization header rather than cross-site cookies, so CORS credentials
 # do not need to be enabled.
 app.add_middleware(
@@ -172,7 +172,7 @@ app.include_router(notifications_router)
 @app.get("/")
 def root() -> dict[str, str]:
     return {
-        "message": "ChoreFlow API is running",
+        "message": "Chorevera API is running",
     }
 
 
@@ -182,3 +182,4 @@ def health_check() -> dict[str, str]:
         "status": "healthy",
         "service": settings.app_name,
     }
+

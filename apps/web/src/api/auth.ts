@@ -1,4 +1,4 @@
-import {
+﻿import {
   API_BASE_URL,
   ApiError,
   apiRequest,
@@ -63,7 +63,7 @@ export async function loginUser(
     );
   } catch {
     throw new ApiError(
-      "Unable to reach the ChoreFlow API. Make sure the FastAPI server is running.",
+      "Unable to reach the Chorevera API. Make sure the FastAPI server is running.",
       0,
       "/api/v1/auth/login",
     );
@@ -175,3 +175,4 @@ export async function confirmPasswordReset(
     },
   );
 }
+

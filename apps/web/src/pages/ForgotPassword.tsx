@@ -1,4 +1,4 @@
-import {
+﻿import {
   type FormEvent,
   useState,
 } from "react";
@@ -98,7 +98,7 @@ export default function ForgotPassword({
           </div>
 
           <div>
-            <h1>ChoreFlow</h1>
+            <h1>Chorevera</h1>
 
             <p>
               Build better daily routines.
@@ -116,7 +116,7 @@ export default function ForgotPassword({
           </h2>
 
           <p>
-            ChoreFlow uses a short-lived,
+            Chorevera uses a short-lived,
             one-time link to protect your
             account.
           </p>
@@ -227,3 +227,4 @@ export default function ForgotPassword({
     </main>
   );
 }
+

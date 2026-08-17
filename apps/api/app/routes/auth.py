@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 import logging
 from datetime import datetime, timedelta, timezone
@@ -194,16 +194,16 @@ def send_verification_message(
 
     send_email(
         to_email=user.email,
-        subject="Verify your ChoreFlow email",
+        subject="Verify your Chorevera email",
         text_body=(
             f"Hello {user.name},\n\n"
-            "Verify your ChoreFlow email by opening this link:\n"
+            "Verify your Chorevera email by opening this link:\n"
             f"{verification_url}\n\n"
             "If you did not create this account, you can ignore this email."
         ),
         html_body=(
             f"<p>Hello {user.name},</p>"
-            "<p>Verify your ChoreFlow email by opening the link below:</p>"
+            "<p>Verify your Chorevera email by opening the link below:</p>"
             f'<p><a href="{verification_url}">Verify email address</a></p>'
             "<p>If you did not create this account, you can ignore this email.</p>"
         ),
@@ -230,16 +230,16 @@ def send_password_reset_message(
 
     send_email(
         to_email=user.email,
-        subject="Reset your ChoreFlow password",
+        subject="Reset your Chorevera password",
         text_body=(
             f"Hello {user.name},\n\n"
-            "Reset your ChoreFlow password by opening this link:\n"
+            "Reset your Chorevera password by opening this link:\n"
             f"{reset_url}\n\n"
             "If you did not request this reset, you can ignore this email."
         ),
         html_body=(
             f"<p>Hello {user.name},</p>"
-            "<p>Reset your ChoreFlow password by opening the link below:</p>"
+            "<p>Reset your Chorevera password by opening the link below:</p>"
             f'<p><a href="{reset_url}">Reset password</a></p>'
             "<p>If you did not request this reset, you can ignore this email.</p>"
         ),
@@ -366,7 +366,7 @@ def register_user(
         )
 
         message = (
-            "Account created, but ChoreFlow could not "
+            "Account created, but Chorevera could not "
             "send the verification email. Use the "
             "resend option on the verification screen."
         )
@@ -781,3 +781,4 @@ def confirm_password_reset(
             "Sign in with your new password."
         ),
     )
+

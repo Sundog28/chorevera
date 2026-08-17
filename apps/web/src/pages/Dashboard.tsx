@@ -795,7 +795,7 @@ export default function Dashboard() {
         (chore) => {
           const notification =
             new Notification(
-              "ChoreFlow Reminder",
+              "Chorevera Reminder",
               {
                 body:
                   `Itâ€™s time to ` +
@@ -1393,11 +1393,11 @@ export default function Dashboard() {
         permission === "granted"
       ) {
         setNotificationMessage(
-          "Notifications are enabled. ChoreFlow can now remind you while the app is open.",
+          "Notifications are enabled. Chorevera can now remind you while the app is open.",
         );
 
         new Notification(
-          "ChoreFlow notifications enabled",
+          "Chorevera notifications enabled",
           {
             body:
               "Your chore reminders are ready.",
@@ -1417,7 +1417,7 @@ export default function Dashboard() {
       }
     } catch {
       setNotificationMessage(
-        "ChoreFlow could not enable notifications.",
+        "Chorevera could not enable notifications.",
       );
     }
   }
@@ -1438,7 +1438,7 @@ export default function Dashboard() {
 
     const notification =
       new Notification(
-        "ChoreFlow Test",
+        "Chorevera Test",
         {
           body:
             "Notifications are working correctly.",
@@ -1490,7 +1490,7 @@ export default function Dashboard() {
     }
 
     setNotificationMessage(
-      "Test reminder scheduled. Keep ChoreFlow open for 5 minutes.",
+      "Test reminder scheduled. Keep Chorevera open for 5 minutes.",
     );
 
     notificationTimeoutRef.current =
@@ -1498,7 +1498,7 @@ export default function Dashboard() {
         () => {
           const notification =
             new Notification(
-              "ChoreFlow Test Reminder",
+              "Chorevera Test Reminder",
               {
                 body:
                   "This is your test chore reminder.",
@@ -1701,7 +1701,7 @@ export default function Dashboard() {
           </div>
 
           <div>
-            <h1>ChoreFlow</h1>
+            <h1>Chorevera</h1>
             <p>
               Build better daily routines.
             </p>
@@ -1815,7 +1815,7 @@ export default function Dashboard() {
             <p>
               Your chores are saved
               securely to your
-              ChoreFlow account.
+              Chorevera account.
             </p>
           </div>
 
@@ -2297,7 +2297,7 @@ export default function Dashboard() {
                     </h4>
 
                     <p>
-                      ChoreFlow is
+                      Chorevera is
                       synchronizing with
                       your account.
                     </p>
@@ -2700,7 +2700,7 @@ export default function Dashboard() {
               <p className=
                 "notification-description"
               >
-                ChoreFlow checks your
+                Chorevera checks your
                 incomplete chores and
                 sends a reminder when
                 their scheduled time
@@ -2874,7 +2874,7 @@ export default function Dashboard() {
               <h3>
                 {hasPaidPlan
                   ? `${plan} plan`
-                  : "Upgrade ChoreFlow"}
+                  : "Upgrade Chorevera"}
               </h3>
 
               <p>
@@ -3027,7 +3027,7 @@ export default function Dashboard() {
 
               <p>
                 These permissions come directly from
-                the protected ChoreFlow feature API.
+                the protected Chorevera feature API.
               </p>
 
               <div className="feature-list">
@@ -3248,4 +3248,5 @@ export default function Dashboard() {
     </div>
   );
 }
+
 

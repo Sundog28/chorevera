@@ -1,4 +1,4 @@
-import {
+﻿import {
   createContext,
   type ReactNode,
   useCallback,
@@ -133,7 +133,7 @@ export function BillingProvider({
     async function handleCheckoutReturn() {
       if (checkoutResult === "success") {
         setBillingMessage(
-          "Payment completed. ChoreFlow is confirming your subscription.",
+          "Payment completed. Chorevera is confirming your subscription.",
         );
 
         /*

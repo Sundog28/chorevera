@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+﻿from datetime import datetime, timezone
 
 from fastapi import (
     APIRouter,
@@ -348,7 +348,7 @@ def require_household_feature(
             status_code=status.HTTP_403_FORBIDDEN,
             detail=(
                 "Household chores require the "
-                "ChoreFlow Family plan."
+                "Chorevera Family plan."
             ),
         )
 
@@ -1280,3 +1280,4 @@ def delete_chore(
     return Response(
         status_code=status.HTTP_204_NO_CONTENT,
     )
+

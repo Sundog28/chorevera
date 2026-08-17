@@ -1,4 +1,4 @@
-import type {
+﻿import type {
   ApiErrorResponse,
 } from "../types/auth";
 
@@ -304,7 +304,7 @@ export async function apiRequest<T>(
     );
   } catch {
     throw new ApiError(
-      "Unable to reach the ChoreFlow API. Make sure the FastAPI server is running.",
+      "Unable to reach the Chorevera API. Make sure the FastAPI server is running.",
       0,
       path,
     );
@@ -356,3 +356,4 @@ export async function apiRequest<T>(
     await response.json()
   ) as T;
 }
+

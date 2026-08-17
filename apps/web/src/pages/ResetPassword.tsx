@@ -1,4 +1,4 @@
-import {
+﻿import {
   type FormEvent,
   useState,
 } from "react";
@@ -111,7 +111,7 @@ export default function ResetPassword({
           </div>
 
           <div>
-            <h1>ChoreFlow</h1>
+            <h1>Chorevera</h1>
 
             <p>
               Build better daily routines.
@@ -253,3 +253,4 @@ export default function ResetPassword({
     </main>
   );
 }
+

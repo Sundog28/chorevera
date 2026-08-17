@@ -1,4 +1,4 @@
-from datetime import datetime, timezone
+﻿from datetime import datetime, timezone
 
 from fastapi import (
     APIRouter,
@@ -74,7 +74,7 @@ def require_family_plan(
             status_code=status.HTTP_403_FORBIDDEN,
             detail=(
                 "Inviting household members requires "
-                "the ChoreFlow Family plan."
+                "the Chorevera Family plan."
             ),
         )
 
@@ -309,7 +309,7 @@ def create_household_invitation(
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=(
-                "No ChoreFlow account exists with "
+                "No Chorevera account exists with "
                 "that email address."
             ),
         )
@@ -744,3 +744,4 @@ def cancel_household_invitation(
     return HouseholdInvitationDeleteResponse(
         cancelled=True,
     )
+

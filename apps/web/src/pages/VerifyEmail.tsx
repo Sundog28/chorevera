@@ -1,4 +1,4 @@
-import {
+﻿import {
   type FormEvent,
   useEffect,
   useState,
@@ -172,7 +172,7 @@ function VerifyEmail({
           </div>
 
           <div>
-            <h1>ChoreFlow</h1>
+            <h1>Chorevera</h1>
 
             <p>
               Build better daily routines.
@@ -320,3 +320,4 @@ function VerifyEmail({
 
 
 export default VerifyEmail;
+

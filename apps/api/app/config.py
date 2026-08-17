@@ -1,4 +1,4 @@
-import os
+﻿import os
 
 from pydantic import Field
 from pydantic_settings import (
@@ -8,7 +8,7 @@ from pydantic_settings import (
 
 
 class Settings(BaseSettings):
-    app_name: str = "ChoreFlow API"
+    app_name: str = "Chorevera API"
     environment: str = "development"
     database_url: str = (
         "sqlite:///./choreflow.db"
@@ -73,7 +73,7 @@ class Settings(BaseSettings):
     smtp_username: str = ""
     smtp_password: str = ""
     smtp_from_email: str = (
-        "ChoreFlow <noreply@choreflow.local>"
+        "Chorevera <noreply@choreflow.local>"
     )
     smtp_use_tls: bool = True
     smtp_use_ssl: bool = False
@@ -223,3 +223,4 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
+
