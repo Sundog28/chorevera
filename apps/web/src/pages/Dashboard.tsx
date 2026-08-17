@@ -3079,7 +3079,7 @@ export default function Dashboard() {
                   <strong>
                     {canUseAiPlanning
                       ? "Unlocked"
-                      : "Coming soon"}
+                      : "Family"}
                   </strong>
                 </div>
               </div>
